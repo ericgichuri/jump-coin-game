@@ -28,6 +28,12 @@ score=0
 gold_coinvalue=5
 red_coinvalue=10
 
+if os.path.exists('score.txt'):
+    with open('score.txt','r') as file:
+        high_score=int(file.read())
+else:
+    high_score=0
+
 screen=pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption("Jumpy Game")
 
@@ -56,7 +62,9 @@ large_font=pygame.font.SysFont('times',50)
 def draw_score(text,font,text_col,x,y):
     img=font.render(text,font,text_col)
     screen.blit(img,(x,y))
-
+def draw_highscore(text,font,text_col,x,y):
+    img=font.render(text,font,text_col)
+    screen.blit(img,(x,y))
 def disp_gameover(text,font,color,x,y):
     img=large_font.render(text,font,color)
     screen.blit(img,(x,y))
@@ -73,9 +81,9 @@ def draw_ground():
 
 class Player():
     def __init__(self,x,y):
-        self.image=pygame.transform.scale(player_image,(40,40))
-        self.width=40
-        self.height=40
+        self.image=pygame.transform.scale(player_image,(30,30))
+        self.width=30
+        self.height=30
         self.rect=pygame.Rect(0,0,self.width,self.height)
         self.rect.center=(x+(self.width/2),y-(self.height/2))
         self.vel_y=0
@@ -199,9 +207,9 @@ class Blocks(pygame.sprite.Sprite):
 class Gold_coin(pygame.sprite.Sprite):
     def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.transform.scale(gold_coin_image,(40,40))
-        self.width=40
-        self.height=40
+        self.image=pygame.transform.scale(gold_coin_image,(30,30))
+        self.width=30
+        self.height=30
         self.rect=pygame.Rect(0,0,self.width,self.height)
         self.rect.center=(x+(self.width/2),y-(self.height/2))
         #self.vel_y=0
@@ -213,9 +221,9 @@ class Gold_coin(pygame.sprite.Sprite):
 class Red_coin(pygame.sprite.Sprite):
     def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.transform.scale(red_coin_image,(40,40))
-        self.width=40
-        self.height=40
+        self.image=pygame.transform.scale(red_coin_image,(30,30))
+        self.width=30
+        self.height=30
         self.rect=pygame.Rect(0,0,self.width,self.height)
         self.rect.center=(x+(self.width/2),y-(self.height/2))
         #self.vel_y=0
@@ -313,9 +321,15 @@ while running:
         pass
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
+            
+            
             running=False
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_r:
+                if score>=high_score:
+                    high_score=score
+                    with open('score.txt',"w") as file:
+                        file.write(str(high_score))
                 gameover=False
                 gameovertext=""
                 score=0
@@ -330,7 +344,9 @@ while running:
                 red_coin_group.draw(screen)
                 gold_coin_group.draw(screen)
                 jumpy=Player(0,GROUND)
-
+                
+    
     draw_score(f'SCORE: {score}',small_font,(0,0,0),10,10)
+    draw_highscore(f'High Score {high_score}',small_font,(0,0,0),SCREEN_WIDTH-300,10)
     pygame.display.update()
 pygame.quit()
