@@ -300,10 +300,14 @@ while running:
         for i in red_coin_group:
             if i.rect.colliderect(jumpy.rect):
                 score=score+red_coinvalue
+                sound=mixer.Sound("music/coin_sound.mp3")
+                sound.play()
                 i.kill()
         for j in gold_coin_group:
             if j.rect.colliderect(jumpy.rect):
                 score=score+gold_coinvalue
+                sound=mixer.Sound("music/coin_sound.mp3")
+                sound.play()
                 j.kill()
         if jumpy.rect.right>=SCREEN_WIDTH:
             #jumpy=Player(0,GROUND)
