@@ -38,13 +38,13 @@ screen=pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption("Jumpy Game")
 
 # looad images
-icon=pygame.image.load("icons/gameicon.png").convert_alpha()
+icon=pygame.image.load("icons/gameicon.png")
 pygame.display.set_icon(icon)
 
 #music
 mixer.music.load("music/bgmusic.mp3")
 mixer.music.play(-1)
-mixer.music.set_volume(0.1)
+mixer.music.set_volume(0.2)
 
 #game images 
 background_image=pygame.image.load("icons/background.png").convert_alpha()
@@ -302,12 +302,15 @@ while running:
                 score=score+red_coinvalue
                 sound=mixer.Sound("music/coin_sound.mp3")
                 sound.play()
+                #mixer.Sound.set_volume(0.1)
+                sound.set_volume(0.1)
                 i.kill()
         for j in gold_coin_group:
             if j.rect.colliderect(jumpy.rect):
                 score=score+gold_coinvalue
                 sound=mixer.Sound("music/coin_sound.mp3")
                 sound.play()
+                sound.set_volume(0.1)
                 j.kill()
         if jumpy.rect.right>=SCREEN_WIDTH:
             #jumpy=Player(0,GROUND)
